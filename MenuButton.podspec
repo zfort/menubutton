@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platform = :ios
   s.ios.deployment_target = '10.0'
   s.swift_version = '4.0'
-  s.source_files = 'MenuButton/*'
+  s.source_files = 'MenuButton/**/*.{swift}'
   s.resources = [
   	'MenuButton/Source/Private/UserInterface/MenuOwnerView/*.{xib}',
   	'MenuButton/Source/Private/UserInterface/MenuOwnerViewCell/*.{xib}'
