@@ -8,5 +8,6 @@ Pod::Spec.new do |s|
   s.author           = { 'Zfort Group' => '' }
   s.source           = { :git => 'https://github.com/zfort/menubutton.git', :tag => s.version.to_s }
   s.ios.deployment_target = '11.0'
+  s.swift_version = '4.0'
   s.source_files = 'MenuButton/Source/Public/MenuButtonView/MenuButtonView.swift', 'MenuButton/Source/Public/MenuItem/MenuItem.swift'
 end
