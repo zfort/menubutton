@@ -22,19 +22,47 @@ public final class MenuButtonView: UIView {
     /// Calls when menu prepared to show. Equivalent of delegate method
     public var onItems: (() -> [MenuItem])?
     /// The color that will be used in all line
-    public var strokeColor: UIColor = UIColor.black
+    public var strokeColor: UIColor = UIColor.black {
+        didSet {
+            configureButton()
+        }
+    }
     /// The color that will be used in border of this button
-    public var borderStrokeColor: UIColor = UIColor.black
+    public var borderStrokeColor: UIColor = UIColor.black {
+        didSet {
+            configureButton()
+        }
+    }
     /// The width of the button’s border.
-    public var borderLineWidth: CGFloat = 1.0
+    public var borderLineWidth: CGFloat = 1.0 {
+        didSet {
+            configureButton()
+        }
+    }
     /// The width of the lines
-    public var lineWidth: CGFloat = 2.5
+    public var lineWidth: CGFloat = 2.5 {
+        didSet {
+            configureButton()
+        }
+    }
     /// The distance between lines and border.
-    public var offset: CGFloat = 3.3
+    public var offset: CGFloat = 3.3 {
+        didSet {
+            configureButton()
+        }
+    }
     /// The distance between lines.
-    public var distanceBetweenLines: CGFloat = 8.0
+    public var distanceBetweenLines: CGFloat = 8.0 {
+        didSet {
+            configureButton()
+        }
+    }
     /// Specifies the basic duration of the animation, in seconds.
-    public var animationDuration: CFTimeInterval = 0.3
+    public var animationDuration: CFTimeInterval = 0.3 {
+        didSet {
+            configureButton()
+        }
+    }
     /// Specifies the basic text menu color
     public var textMenuColor: UIColor = UIColor.black
     /// Specifies the basic text menu font
@@ -143,6 +171,7 @@ private extension MenuButtonView {
         button.onOpenedState = { [weak self] in self?.showMenu() }
         button.onClosedState = { [weak self] in self?.hideMenu() }
 
+        menuButton?.removeFromSuperview()
         addSubview(button)
         menuButton = button
     }

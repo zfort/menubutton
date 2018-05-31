@@ -25,21 +25,49 @@ final class MenuButton: UIButton {
     var onClosedState: EmptyClosure?
 
     /// The color that will be used in all line
-    var strokeColor: UIColor = UIColor.black
+    var strokeColor: UIColor = UIColor.black {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// The color that will be used in border of this button
-    var borderStrokeColor: UIColor = UIColor.black
+    var borderStrokeColor: UIColor = UIColor.black {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// The width of the button’s border.
-    var borderLineWidth: CGFloat = 1.0
+    var borderLineWidth: CGFloat = 1.0 {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// The width of the lines
-    var lineWidth: CGFloat = 2.5
+    var lineWidth: CGFloat = 2.5 {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// Really strange property. Was conceived as distance between lines and border.
     /// Warning: Be careful
-    var offset: CGFloat = 3.3
+    var offset: CGFloat = 3.3 {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// Really strange property. Was conceived as distance between lines.
     /// Warning: Be careful
-    var distanceBetweenLines: CGFloat = 8.0
+    var distanceBetweenLines: CGFloat = 8.0 {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// Specifies the basic duration of the animation, in seconds.
-    var animationDuration: CFTimeInterval = 0.3
+    var animationDuration: CFTimeInterval = 0.3 {
+        didSet {
+            configure(with: strokeColor)
+        }
+    }
     /// Magic number
     private let crossMultiplier: CGFloat = 2.7
 
