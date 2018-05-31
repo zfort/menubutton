@@ -21,8 +21,8 @@ class ViewController: UIViewController {
 extension ViewController {
     private func configureMenuButtonView() {
         menuButtonView.bindView(self.view)
-        menuButtonView.onSelectedItem = { _ in }
-        menuButtonView.onDeselect = {}
+        menuButtonView.onSelectedItem = { print("view was selected at item \($0)") }
+        menuButtonView.onDeselect = { print("view was deselect") }
         menuButtonView.onItems = makeItems()
     }
 }
