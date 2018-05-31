@@ -20,6 +20,10 @@ class ViewController: UIViewController {
 
 extension ViewController {
     private func configureMenuButtonView() {
+        menuButtonView.strokeColor = .red
+        menuButtonView.borderStrokeColor = .red
+        menuButtonView.textMenuColor = .blue
+
         menuButtonView.bindView(self.view)
         menuButtonView.onDeselect = { print("view was deselect") }
         menuButtonView.onItems = makeItems()
