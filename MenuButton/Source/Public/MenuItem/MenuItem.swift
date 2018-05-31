@@ -8,10 +8,14 @@
 
 import UIKit
 
-/// This protocol uses for representation inside in button menu.
-public protocol MenuItem {
-    /// An image that will be displayed in button menu
-    var icon: UIImage { get }
-    /// A text that will be displayed in button menu
-    var text: String { get }
+public final class MenuItem {
+    let image: UIImage
+    let text: String
+    let action: (() -> Void)?
+
+    public init(image: UIImage, text: String, action: (() -> Void)? = nil) {
+        self.image = image
+        self.text = text
+        self.action = action
+    }
 }

@@ -34,7 +34,7 @@ struct MenuOwnerViewModel {
     let text: NSAttributedString
 
     init(menuItem: MenuItem, settings: MenuOwnerViewModelSettings) {
-        self.image = menuItem.icon
+        self.image = menuItem.image
         self.text = settings.makeAttributedString(menuItem.text)
     }
 }
