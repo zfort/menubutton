@@ -5,9 +5,11 @@ Pod::Spec.new do |s|
   s.description      = 'Animated button which looks like material design'
   s.homepage         = 'https://github.com/zfort/menubutton'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Zfort Group' => 'starostenko@zfort.com' }
-  s.source           = { :git => 'https://github.com/zfort/menubutton.git', :branch => 'master' }
+  s.author           = { 'Andrii Starostenko' => 'starostenko@zfort.com' }
+  s.source           = { :git => 'https://github.com/zfort/menubutton.git', :tag => s.version.to_s }
+  s.platform = :ios
   s.ios.deployment_target = '10.0'
   s.swift_version = '4.0'
   s.source_files = 'MenuButton/*'
+  s.resources = "MenuButton/Private/UserInterface/**/*.{png,jpeg,jpg,storyboard,xib}"
 end
