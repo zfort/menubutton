@@ -33,8 +33,8 @@ final class MenuOwnerView: UIView {
         }
     }
 
-    /// Calls when user tap specific menu item. Return menu item index.
-    var onSelectAtIndex: IntReturnClosure?
+    /// Calls when user tap specific menu item.
+    var onSelected: EmptyClosure?
     /// Calls when user tap on background.
     var onDeselect: EmptyClosure?
     var settings: MenuOwnerViewModelSettings?
@@ -112,8 +112,9 @@ private extension MenuOwnerView {
 
 extension MenuOwnerView: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view?.isDescendant(of: tableView) == true {
-            return false
+        if gestureRecognizer is UITapGestureRecognizer {
+            let location = touch.location(in: tableView)
+            return (tableView.indexPathForRow(at: location) == nil)
         }
 
         return true
@@ -143,7 +144,9 @@ extension MenuOwnerView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let itemViewModel = dataSource[indexPath.row]
+        itemViewModel.action?()
+        onSelected?()
         unsubscribeForDeviceOrientationChanging()
-        onSelectAtIndex?(indexPath.row)
     }
 }

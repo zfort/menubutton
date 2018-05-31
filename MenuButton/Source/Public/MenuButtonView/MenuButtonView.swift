@@ -17,8 +17,6 @@ public final class MenuButtonView: UIView {
     /// A view that represent menu
     private var menuOwnerView: MenuOwnerView?
 
-    /// Calls when user touched menu. Returns index of item
-    public var onSelectedItem: ((Int) -> Void)?
     /// Calls when user touched background view.
     public var onDeselect: (() -> Void)?
     /// Calls when menu prepared to show. Equivalent of delegate method
@@ -85,8 +83,8 @@ private extension MenuButtonView {
         let parentViewBounds = safeParentViewBounds(parentView)
         let view: MenuOwnerView = MenuOwnerView.fromNib()
 
-        view.onSelectAtIndex = { [weak self] in self?.toggleMenuAtIndex($0) }
-        view.onDeselect = { [weak self] in self?.toggleMenuAtIndex(nil) }
+        view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
+        view.onDeselect = { [weak self] in self?.toggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textmenuSize)
 
         parentView?.addSubview(view)
@@ -107,13 +105,11 @@ private extension MenuButtonView {
         }
     }
 
-    private func toggleMenuAtIndex(_ index: Int?) {
+    private func toggleMenu(isDeselected: Bool = true) {
         onMainThread {
             self.menuButton?.toggleButton()
-            
-            if let index = index {
-                self.onSelectedItem?(index)
-            } else {
+
+            if isDeselected {
                 self.onDeselect?()
             }
         }

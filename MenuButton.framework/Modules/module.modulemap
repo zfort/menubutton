@@ -1,0 +1,11 @@
+framework module MenuButton {
+  umbrella header "MenuButton.h"
+
+  export *
+  module * { export * }
+}
+
+module MenuButton.Swift {
+    header "MenuButton-Swift.h"
+    requires objc
+}

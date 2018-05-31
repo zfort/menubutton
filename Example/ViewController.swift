@@ -21,7 +21,6 @@ class ViewController: UIViewController {
 extension ViewController {
     private func configureMenuButtonView() {
         menuButtonView.bindView(self.view)
-        menuButtonView.onSelectedItem = { print("view was selected at item \($0)") }
         menuButtonView.onDeselect = { print("view was deselect") }
         menuButtonView.onItems = makeItems()
     }
@@ -31,14 +30,14 @@ extension ViewController {
     private func makeItems() -> (() -> [MenuItem])  {
         return {
             return [
-                Item(icon: UIImage(named: "1")!, text: "Go to Mission Chat"),
-                Item(icon: UIImage(named: "2")!, text: "Open Flight Plan"),
-                Item(icon: UIImage(named: "3")!, text: "Complete Mission"),
-                Item(icon: UIImage(named: "4")!, text: "Add Media"),
-                Item(icon: UIImage(named: "5")!, text: "Show on Map"),
-                Item(icon: UIImage(named: "6")!, text: "Send Email to Mission Creator"),
-                Item(icon: UIImage(named: "7")!, text: "Phone Mission Creator"),
-                Item(icon: UIImage(named: "8")!, text: "Hide Mission from Mission List")
+                MenuItem(image: UIImage(named: "1")!, text: "Go to Mission Chat", action: { print("Clicked at: Go to Mission Chat") }),
+                MenuItem(image: UIImage(named: "2")!, text: "Open Flight Plan", action: { print("Clicked at: Open Flight Plan") }),
+                MenuItem(image: UIImage(named: "3")!, text: "Complete Mission", action: { print("Clicked at: Complete Mission") }),
+                MenuItem(image: UIImage(named: "4")!, text: "Add Media", action: { print("Clicked at: Add Media") }),
+                MenuItem(image: UIImage(named: "5")!, text: "Show on Map", action: { print("Clicked at: Show on Map") }),
+                MenuItem(image: UIImage(named: "6")!, text: "Send Email to Mission Creator", action: { print("Clicked at: Send Email to Mission Creator") }),
+                MenuItem(image: UIImage(named: "7")!, text: "Phone Mission Creator", action: { print("Clicked at: Phone Mission Creator") }),
+                MenuItem(image: UIImage(named: "8")!, text: "Hide Mission from Mission List", action: { print("Clicked at: Hide Mission from Mission List") })
             ]
         }
     }
