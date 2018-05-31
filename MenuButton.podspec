@@ -11,5 +11,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.swift_version = '4.0'
   s.source_files = 'MenuButton/*'
-  s.resources = "MenuButton/Private/UserInterface/**/*.{png,jpeg,jpg,storyboard,xib}"
+  s.resources = [
+  	'MenuButton/Source/Private/UserInterface/MenuOwnerView/*.{xib}',
+  	'MenuButton/Source/Private/UserInterface/MenuOwnerViewCell/*.{xib}'
+  ]
 end
