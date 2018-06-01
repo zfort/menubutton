@@ -13,19 +13,14 @@ final class MenuOwnerView: UIView {
     @IBOutlet private weak var backgroundView: UIView!
     @IBOutlet private weak var tableViewOwnerView: UIView!
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var topOwnerViewConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var bottomOwnerViewConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var heightOwnerViewConstraint: NSLayoutConstraint!
 
     private let ownerViewBottomIndent: CGFloat = 16.0
+    private var animator: UIViewPropertyAnimator?
+    private let commonIndent: CGFloat = 16.0
 
-    /// An indent between menu button and menu owner view
-    var bottomIndent: CGFloat = 0.0 {
-        didSet {
-            bottomOwnerViewConstraint.constant = ownerViewBottomIndent + bottomIndent
-        }
-    }
-
+    var cellHeight: CGFloat = 58.0
+    var bottomIndent: CGFloat = 0.0
+    var parentFrame: CGRect = .zero
     /// Call to reload all the data that is used to construct the table.
     var dataSource: [MenuItem] = [] {
         didSet {
@@ -37,6 +32,8 @@ final class MenuOwnerView: UIView {
     var onSelected: EmptyClosure?
     /// Calls when user tap on background.
     var onDeselect: EmptyClosure?
+    /// Call if it's only ipad
+    var onForcedClosure: EmptyClosure?
     var settings: MenuOwnerViewModelSettings?
 
     override func awakeFromNib() {
@@ -49,13 +46,33 @@ private extension MenuOwnerView {
     private func reloadDataSource() {
         tableView.reloadData()
 
-        if tableView.contentSize.height < frame.size.height {
-            topOwnerViewConstraint.isActive = false
-            heightOwnerViewConstraint.constant = tableView.contentSize.height
+        tableViewOwnerView.alpha = 0.0
+        tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2,
+                                          y: parentFrame.origin.y - parentFrame.size.height / 2,
+                                          width: 0,
+                                          height: 0)
+
+        var tableViewHeight: CGFloat
+        var tableViewYPosition: CGFloat
+        let isContentSizeLessThanParentSize = tableView.contentSize.height + self.bottomIndent + self.ownerViewBottomIndent < frame.size.height
+
+        if isContentSizeLessThanParentSize {
+            tableViewHeight = tableView.contentSize.height
+            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
         } else {
-            heightOwnerViewConstraint.constant = tableView.frame.size.height
-            topOwnerViewConstraint.isActive = true
+            tableViewHeight = self.frame.height - (self.ownerViewBottomIndent * 2) - self.bottomIndent
+            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
         }
+
+        animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1.0, animations: {
+            self.tableViewOwnerView.frame = CGRect(x: self.ownerViewBottomIndent,
+                                                   y: tableViewYPosition,
+                                                   width: self.frame.width - self.ownerViewBottomIndent * 2,
+                                                   height: tableViewHeight)
+            self.tableViewOwnerView.alpha = 1
+        })
+
+        animator?.startAnimation()
     }
 }
 
@@ -63,6 +80,7 @@ private extension MenuOwnerView {
     private func configureView() {
         configureBackgroundView()
         configureTableView()
+        configureTableViewFrame()
         subscribeForDeviceOrientationChanging()
     }
 
@@ -79,6 +97,14 @@ private extension MenuOwnerView {
         tableView.estimatedSectionFooterHeight = 0
         tableView.separatorInset = .zero
         tableView.bounces = false
+    }
+
+    private func configureTableViewFrame() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: tableViewOwnerView.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: tableViewOwnerView.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: tableViewOwnerView.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: tableViewOwnerView.bottomAnchor).isActive = true
     }
 
     private func configureBackgroundView() {
@@ -103,6 +129,11 @@ private extension MenuOwnerView {
 
 private extension MenuOwnerView {
     @objc private func deviceOrientationDidChangeNotification(_ notification: Any) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            onForcedClosure?()
+            return
+        }
+
         reloadDataSource()
     }
 
@@ -141,7 +172,7 @@ extension MenuOwnerView: UITableViewDelegate {
 
 extension MenuOwnerView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 58.0
+        return cellHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

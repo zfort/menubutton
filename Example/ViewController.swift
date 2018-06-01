@@ -23,6 +23,7 @@ extension ViewController {
         menuButtonView.strokeColor = .red
         menuButtonView.borderStrokeColor = .red
         menuButtonView.textMenuColor = .blue
+        menuButtonView.menuCellHeight = 50.0
 
         menuButtonView.bindView(self.view)
         menuButtonView.onDeselect = { print("view was deselect") }

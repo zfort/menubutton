@@ -69,6 +69,8 @@ public final class MenuButtonView: UIView {
     public var textMenuFont: UIFont = UIFont.systemFont(ofSize: 17.0)
     /// Specifies the basic text menu font size
     public var textmenuSize: CGFloat = 17.0
+    /// Specifies the basic cell menu height
+    public var menuCellHeight: CGFloat = 58.0
 
     /// Initializes and returns a newly allocated view object with the specified frame rectangle.
     ///
@@ -113,13 +115,18 @@ private extension MenuButtonView {
 
         view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
         view.onDeselect = { [weak self] in self?.toggleMenu() }
+        view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textmenuSize)
+
+        view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
 
         parentView?.addSubview(view)
         parentView?.bringSubview(toFront: self)
 
         view.frame = parentViewBounds
+        view.parentFrame = frame
         view.bottomIndent = parentViewBounds.height - frame.origin.y
+        view.cellHeight = menuCellHeight
         view.dataSource = self.onItems?() ?? []
 
         menuOwnerView = view
@@ -128,9 +135,23 @@ private extension MenuButtonView {
     /// Hides menu
     private func hideMenu() {
         onMainThread {
+            self.animateSnapshotMenu()
+
             self.menuOwnerView?.removeFromSuperview()
             self.menuOwnerView = nil
         }
+    }
+
+    private func animateSnapshotMenu() {
+        let snapshot = self.menuOwnerView!.snapshotView(afterScreenUpdates: false)!
+        snapshot.frame = self.menuOwnerView!.frame
+        self.menuOwnerView?.superview?.insertSubview(snapshot, aboveSubview: self.menuOwnerView!)
+
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            snapshot.alpha = 0.0
+        }, completion: { some in
+            snapshot.removeFromSuperview()
+        })
     }
 
     private func toggleMenu(isDeselected: Bool = true) {
@@ -140,6 +161,12 @@ private extension MenuButtonView {
             if isDeselected {
                 self.onDeselect?()
             }
+        }
+    }
+
+    private func forceToggleMenu() {
+        onMainThread {
+            self.toggleMenu(isDeselected: false)
         }
     }
 }
@@ -174,5 +201,13 @@ private extension MenuButtonView {
         menuButton?.removeFromSuperview()
         addSubview(button)
         menuButton = button
+    }
+
+    private func configureAnimationTransition() -> CATransition {
+        let animation = CATransition.init()
+        animation.duration = 0.3
+        animation.type = kCATransitionReveal
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        return animation
     }
 }

@@ -19,36 +19,20 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mav-vx-B0l">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCY-ai-0DO">
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eCY-ai-0DO">
                             <rect key="frame" x="16" y="16" width="343" height="635"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vsq-Yb-yOG">
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vsq-Yb-yOG">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="635"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </tableView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="vsq-Yb-yOG" secondAttribute="bottom" id="5gJ-DM-Zeb"/>
-                                <constraint firstAttribute="trailing" secondItem="vsq-Yb-yOG" secondAttribute="trailing" id="Cna-BV-Hcl"/>
-                                <constraint firstItem="vsq-Yb-yOG" firstAttribute="top" secondItem="eCY-ai-0DO" secondAttribute="top" id="oJb-xv-s0K"/>
-                                <constraint firstAttribute="height" priority="999" constant="635" id="sa1-03-h7o"/>
-                                <constraint firstItem="vsq-Yb-yOG" firstAttribute="leading" secondItem="eCY-ai-0DO" secondAttribute="leading" id="u65-as-fSf"/>
-                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="eCY-ai-0DO" secondAttribute="trailing" constant="16" id="6Zp-89-hKz"/>
-                        <constraint firstItem="eCY-ai-0DO" firstAttribute="top" secondItem="mav-vx-B0l" secondAttribute="top" constant="16" id="BDd-we-Ggy"/>
-                        <constraint firstItem="eCY-ai-0DO" firstAttribute="leading" secondItem="mav-vx-B0l" secondAttribute="leading" constant="16" id="ICe-kl-XHT"/>
-                        <constraint firstAttribute="bottom" secondItem="eCY-ai-0DO" secondAttribute="bottom" constant="16" id="xot-RB-U81"/>
-                    </constraints>
-                    <variation key="heightClass=compact-widthClass=compact">
-                        <mask key="constraints">
-                            <include reference="BDd-we-Ggy"/>
-                        </mask>
-                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -61,11 +45,8 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backgroundView" destination="mav-vx-B0l" id="wSa-zI-Irj"/>
-                <outlet property="bottomOwnerViewConstraint" destination="xot-RB-U81" id="N9y-8l-ujd"/>
-                <outlet property="heightOwnerViewConstraint" destination="sa1-03-h7o" id="RWR-Rb-hj3"/>
                 <outlet property="tableView" destination="vsq-Yb-yOG" id="iBZ-we-Spk"/>
                 <outlet property="tableViewOwnerView" destination="eCY-ai-0DO" id="CFY-aP-N1q"/>
-                <outlet property="topOwnerViewConstraint" destination="BDd-we-Ggy" id="poO-NB-Rb6"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
