@@ -32,6 +32,8 @@ final class MenuOwnerView: UIView {
     var onSelected: EmptyClosure?
     /// Calls when user tap on background.
     var onDeselect: EmptyClosure?
+    /// Call if it's only ipad
+    var onForcedClosure: EmptyClosure?
     var settings: MenuOwnerViewModelSettings?
 
     override func awakeFromNib() {
@@ -44,8 +46,11 @@ private extension MenuOwnerView {
     private func reloadDataSource() {
         tableView.reloadData()
 
-        tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2, y: parentFrame.origin.y - parentFrame.size.height / 2, width: 0, height: 0)
         tableViewOwnerView.alpha = 0.0
+        tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2,
+                                          y: parentFrame.origin.y - parentFrame.size.height / 2,
+                                          width: 0,
+                                          height: 0)
 
         var tableViewHeight: CGFloat
         var tableViewYPosition: CGFloat
@@ -124,6 +129,11 @@ private extension MenuOwnerView {
 
 private extension MenuOwnerView {
     @objc private func deviceOrientationDidChangeNotification(_ notification: Any) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            onForcedClosure?()
+            return
+        }
+
         reloadDataSource()
     }
 

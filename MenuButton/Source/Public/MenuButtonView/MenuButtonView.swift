@@ -115,6 +115,7 @@ private extension MenuButtonView {
 
         view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
         view.onDeselect = { [weak self] in self?.toggleMenu() }
+        view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textmenuSize)
 
         view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
@@ -160,6 +161,12 @@ private extension MenuButtonView {
             if isDeselected {
                 self.onDeselect?()
             }
+        }
+    }
+
+    private func forceToggleMenu() {
+        onMainThread {
+            self.toggleMenu(isDeselected: false)
         }
     }
 }
