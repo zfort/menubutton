@@ -115,10 +115,13 @@ private extension MenuButtonView {
         view.onDeselect = { [weak self] in self?.toggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textmenuSize)
 
+        view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
+
         parentView?.addSubview(view)
         parentView?.bringSubview(toFront: self)
 
         view.frame = parentViewBounds
+        view.parentFrame = frame
         view.bottomIndent = parentViewBounds.height - frame.origin.y
         view.dataSource = self.onItems?() ?? []
 
@@ -128,9 +131,23 @@ private extension MenuButtonView {
     /// Hides menu
     private func hideMenu() {
         onMainThread {
+            self.animateSnapshotMenu()
+
             self.menuOwnerView?.removeFromSuperview()
             self.menuOwnerView = nil
         }
+    }
+
+    private func animateSnapshotMenu() {
+        let snapshot = self.menuOwnerView!.snapshotView(afterScreenUpdates: false)!
+        snapshot.frame = self.menuOwnerView!.frame
+        self.menuOwnerView?.superview?.insertSubview(snapshot, aboveSubview: self.menuOwnerView!)
+
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            snapshot.alpha = 0.0
+        }, completion: { some in
+            snapshot.removeFromSuperview()
+        })
     }
 
     private func toggleMenu(isDeselected: Bool = true) {
@@ -174,5 +191,13 @@ private extension MenuButtonView {
         menuButton?.removeFromSuperview()
         addSubview(button)
         menuButton = button
+    }
+
+    private func configureAnimationTransition() -> CATransition {
+        let animation = CATransition.init()
+        animation.duration = 0.3
+        animation.type = kCATransitionReveal
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        return animation
     }
 }

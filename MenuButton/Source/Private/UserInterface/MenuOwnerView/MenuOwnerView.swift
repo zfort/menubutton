@@ -13,19 +13,13 @@ final class MenuOwnerView: UIView {
     @IBOutlet private weak var backgroundView: UIView!
     @IBOutlet private weak var tableViewOwnerView: UIView!
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var topOwnerViewConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var bottomOwnerViewConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var heightOwnerViewConstraint: NSLayoutConstraint!
 
     private let ownerViewBottomIndent: CGFloat = 16.0
+    private var animator: UIViewPropertyAnimator?
+    private let commonIndent: CGFloat = 16.0
 
-    /// An indent between menu button and menu owner view
-    var bottomIndent: CGFloat = 0.0 {
-        didSet {
-            bottomOwnerViewConstraint.constant = ownerViewBottomIndent + bottomIndent
-        }
-    }
-
+    var bottomIndent: CGFloat = 0.0
+    var parentFrame: CGRect = .zero
     /// Call to reload all the data that is used to construct the table.
     var dataSource: [MenuItem] = [] {
         didSet {
@@ -49,13 +43,22 @@ private extension MenuOwnerView {
     private func reloadDataSource() {
         tableView.reloadData()
 
-        if tableView.contentSize.height < frame.size.height {
-            topOwnerViewConstraint.isActive = false
-            heightOwnerViewConstraint.constant = tableView.contentSize.height
-        } else {
-            heightOwnerViewConstraint.constant = tableView.frame.size.height
-            topOwnerViewConstraint.isActive = true
-        }
+        tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2, y: parentFrame.origin.y - parentFrame.size.height / 2, width: 0, height: 0)
+        tableViewOwnerView.alpha = 0.0
+
+        let isContentSizeLessThanParentSize = tableView.contentSize.height < frame.size.height
+        let tableViewHeight: CGFloat = isContentSizeLessThanParentSize ? tableView.contentSize.height : tableView.frame.size.height - self.bottomIndent
+        let tableViewYPosition: CGFloat = isContentSizeLessThanParentSize ? self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent : self.ownerViewBottomIndent
+
+        animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1.0, animations: {
+            self.tableViewOwnerView.frame = CGRect(x: self.ownerViewBottomIndent,
+                                                   y: tableViewYPosition,
+                                                   width: self.frame.width - self.ownerViewBottomIndent * 2,
+                                                   height: tableViewHeight)
+            self.tableViewOwnerView.alpha = 1
+        })
+
+        animator?.startAnimation()
     }
 }
 
@@ -63,6 +66,7 @@ private extension MenuOwnerView {
     private func configureView() {
         configureBackgroundView()
         configureTableView()
+        configureTableViewFrame()
         subscribeForDeviceOrientationChanging()
     }
 
@@ -79,6 +83,14 @@ private extension MenuOwnerView {
         tableView.estimatedSectionFooterHeight = 0
         tableView.separatorInset = .zero
         tableView.bounces = false
+    }
+
+    private func configureTableViewFrame() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: tableViewOwnerView.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: tableViewOwnerView.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: tableViewOwnerView.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: tableViewOwnerView.bottomAnchor).isActive = true
     }
 
     private func configureBackgroundView() {
