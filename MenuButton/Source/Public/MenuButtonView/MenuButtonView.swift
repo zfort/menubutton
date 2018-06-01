@@ -69,6 +69,8 @@ public final class MenuButtonView: UIView {
     public var textMenuFont: UIFont = UIFont.systemFont(ofSize: 17.0)
     /// Specifies the basic text menu font size
     public var textmenuSize: CGFloat = 17.0
+    /// Specifies the basic cell menu height
+    public var menuCellHeight: CGFloat = 58.0
 
     /// Initializes and returns a newly allocated view object with the specified frame rectangle.
     ///
@@ -123,6 +125,7 @@ private extension MenuButtonView {
         view.frame = parentViewBounds
         view.parentFrame = frame
         view.bottomIndent = parentViewBounds.height - frame.origin.y
+        view.cellHeight = menuCellHeight
         view.dataSource = self.onItems?() ?? []
 
         menuOwnerView = view

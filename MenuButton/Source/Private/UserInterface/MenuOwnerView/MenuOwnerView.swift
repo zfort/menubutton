@@ -18,6 +18,7 @@ final class MenuOwnerView: UIView {
     private var animator: UIViewPropertyAnimator?
     private let commonIndent: CGFloat = 16.0
 
+    var cellHeight: CGFloat = 58.0
     var bottomIndent: CGFloat = 0.0
     var parentFrame: CGRect = .zero
     /// Call to reload all the data that is used to construct the table.
@@ -46,9 +47,17 @@ private extension MenuOwnerView {
         tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2, y: parentFrame.origin.y - parentFrame.size.height / 2, width: 0, height: 0)
         tableViewOwnerView.alpha = 0.0
 
-        let isContentSizeLessThanParentSize = tableView.contentSize.height < frame.size.height
-        let tableViewHeight: CGFloat = isContentSizeLessThanParentSize ? tableView.contentSize.height : tableView.frame.size.height - self.bottomIndent
-        let tableViewYPosition: CGFloat = isContentSizeLessThanParentSize ? self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent : self.ownerViewBottomIndent
+        var tableViewHeight: CGFloat
+        var tableViewYPosition: CGFloat
+        let isContentSizeLessThanParentSize = tableView.contentSize.height + self.bottomIndent + self.ownerViewBottomIndent < frame.size.height
+
+        if isContentSizeLessThanParentSize {
+            tableViewHeight = tableView.contentSize.height
+            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
+        } else {
+            tableViewHeight = self.frame.height - (self.ownerViewBottomIndent * 2) - self.bottomIndent
+            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
+        }
 
         animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1.0, animations: {
             self.tableViewOwnerView.frame = CGRect(x: self.ownerViewBottomIndent,
@@ -153,7 +162,7 @@ extension MenuOwnerView: UITableViewDelegate {
 
 extension MenuOwnerView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 58.0
+        return cellHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
