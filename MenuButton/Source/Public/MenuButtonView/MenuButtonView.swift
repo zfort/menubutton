@@ -71,6 +71,8 @@ public final class MenuButtonView: UIView {
     public var textmenuSize: CGFloat = 17.0
     /// Specifies the basic cell menu height
     public var menuCellHeight: CGFloat = 58.0
+    /// Uses only on iPad. Otherwise will be ignoring
+    public var menuWidth: CGFloat = 300.0
 
     /// Initializes and returns a newly allocated view object with the specified frame rectangle.
     ///
@@ -127,6 +129,7 @@ private extension MenuButtonView {
         view.parentFrame = frame
         view.bottomIndent = parentViewBounds.height - frame.origin.y
         view.cellHeight = menuCellHeight
+        view.menuWidth = menuWidth
         view.dataSource = self.onItems?() ?? []
 
         menuOwnerView = view

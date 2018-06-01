@@ -21,6 +21,8 @@ final class MenuOwnerView: UIView {
     var cellHeight: CGFloat = 58.0
     var bottomIndent: CGFloat = 0.0
     var parentFrame: CGRect = .zero
+    /// Uses only on iPad. Otherwise will be ignoring
+    var menuWidth: CGFloat = 300.0
     /// Call to reload all the data that is used to construct the table.
     var dataSource: [MenuItem] = [] {
         didSet {
@@ -52,23 +54,11 @@ private extension MenuOwnerView {
                                           width: 0,
                                           height: 0)
 
-        var tableViewHeight: CGFloat
-        var tableViewYPosition: CGFloat
-        let isContentSizeLessThanParentSize = tableView.contentSize.height + self.bottomIndent + self.ownerViewBottomIndent < frame.size.height
-
-        if isContentSizeLessThanParentSize {
-            tableViewHeight = tableView.contentSize.height
-            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
-        } else {
-            tableViewHeight = self.frame.height - (self.ownerViewBottomIndent * 2) - self.bottomIndent
-            tableViewYPosition = self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
-        }
-
         animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1.0, animations: {
-            self.tableViewOwnerView.frame = CGRect(x: self.ownerViewBottomIndent,
-                                                   y: tableViewYPosition,
-                                                   width: self.frame.width - self.ownerViewBottomIndent * 2,
-                                                   height: tableViewHeight)
+            self.tableViewOwnerView.frame = CGRect(x: self.tableViewXPosition,
+                                                   y: self.tableViewYPosition,
+                                                   width: self.tableViewWidth,
+                                                   height: self.tableViewHeight)
             self.tableViewOwnerView.alpha = 1
         })
 
@@ -180,5 +170,35 @@ extension MenuOwnerView: UITableViewDataSource {
         itemViewModel.action?()
         onSelected?()
         unsubscribeForDeviceOrientationChanging()
+    }
+}
+
+private extension MenuOwnerView {
+    private var tableViewXPosition: CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? frame.width - menuWidth : ownerViewBottomIndent
+    }
+
+    private var tableViewWidth: CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? self.menuWidth - self.ownerViewBottomIndent * 2 : self.frame.width - self.ownerViewBottomIndent * 2
+    }
+
+    private var tableViewYPosition: CGFloat {
+        if isContentSizeLessThanParentSize {
+            return self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
+        }
+
+        return self.frame.height - tableViewHeight - self.bottomIndent - self.ownerViewBottomIndent
+    }
+
+    private var tableViewHeight: CGFloat {
+        if isContentSizeLessThanParentSize {
+            return tableView.contentSize.height
+        }
+
+        return self.frame.height - (self.ownerViewBottomIndent * 2) - self.bottomIndent
+    }
+
+    private var isContentSizeLessThanParentSize: Bool {
+        return tableView.contentSize.height + self.bottomIndent + self.ownerViewBottomIndent < frame.size.height
     }
 }
