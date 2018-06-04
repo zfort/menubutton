@@ -119,6 +119,9 @@ private extension MenuOwnerView {
 
 private extension MenuOwnerView {
     @objc private func deviceOrientationDidChangeNotification(_ notification: Any) {
+        let currentOrientation = UIDevice.current.orientation
+        guard UIDeviceOrientationIsPortrait(currentOrientation) || UIDeviceOrientationIsLandscape(currentOrientation) else { return }
+
         if UIDevice.current.userInterfaceIdiom == .pad {
             onForcedClosure?()
             return
