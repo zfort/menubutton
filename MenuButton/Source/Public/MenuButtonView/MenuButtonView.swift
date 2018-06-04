@@ -68,7 +68,7 @@ public final class MenuButtonView: UIView {
     /// Specifies the basic text menu font
     public var textMenuFont: UIFont = UIFont.systemFont(ofSize: 17.0)
     /// Specifies the basic text menu font size
-    public var textmenuSize: CGFloat = 17.0
+    public var textMenuSize: CGFloat = 17.0
     /// Specifies the basic cell menu height
     public var menuCellHeight: CGFloat = 58.0
     /// Uses only on iPad. Otherwise will be ignoring
@@ -118,7 +118,7 @@ private extension MenuButtonView {
         view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
         view.onDeselect = { [weak self] in self?.toggleMenu() }
         view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
-        view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textmenuSize)
+        view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textMenuSize)
 
         view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
 
