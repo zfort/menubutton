@@ -108,7 +108,7 @@ var onDeselect: (() -> Void)?
 ```swift
 var onItems: (() -> [MenuItem])?
 ```
-### Calls when menu needs get configure itself.
+##### Calls when menu needs get configure itself.
 ```swift
 var onConfigure: (() -> [MenuButtonViewConfig])?
 ```
