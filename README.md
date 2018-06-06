@@ -65,9 +65,9 @@ func makeItems() -> (() -> [MenuItem])  {
 ```
 
 ### MenuButtonViewConfig
-The class that configured a [MenuButton](https://github.com/zfort/menubutton/blob/master/MenuButton/Source/Public/MenuButtonViewConfig/MenuButtonViewConfig.swift)
+The enum that configured a [MenuButton](https://github.com/zfort/menubutton/blob/master/MenuButton/Source/Public/MenuButtonViewConfig/MenuButtonViewConfig.swift)
 ```swift
-public enum MenuButtonViewConfig {
+enum MenuButtonViewConfig {
     case textMenuColor(UIColor)
     case textMenuFont(UIFont)
     case textMenuSize(CGFloat)
@@ -84,7 +84,7 @@ public enum MenuButtonViewConfig {
 }
 ```
 ```swift
-private func makeConfiguration() -> (() -> [MenuButtonViewConfig]) {
+func makeConfiguration() -> (() -> [MenuButtonViewConfig]) {
         return {
             return [
                 .strokeColor(.red),
