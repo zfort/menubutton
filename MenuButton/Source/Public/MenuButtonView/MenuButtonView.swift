@@ -16,70 +16,20 @@ public final class MenuButtonView: UIView {
     private var parentView: UIView?
     /// A view that represent menu
     private var menuOwnerView: MenuOwnerView?
+    /// The global config that used in MenuButtonView
+    private var configuration: MenuButtonConfiguration = MenuButtonConfiguration()
 
     /// Calls when user touched background view.
     public var onDeselect: (() -> Void)?
     /// Calls when menu prepared to show. Equivalent of delegate method
     public var onItems: (() -> [MenuItem])?
-    /// The color that will be used in all line
-    public var strokeColor: UIColor = UIColor.black {
+    /// Calls when menu needs get configure itself
+    public var onConfigure: (() -> [MenuButtonViewConfig])? {
         didSet {
+            configuration = makeConfigurationForMenuButton(from: onConfigure?())
             configureButton()
         }
     }
-    /// The color that will be used in border of this button
-    public var borderStrokeColor: UIColor = UIColor.black {
-        didSet {
-            configureButton()
-        }
-    }
-    /// The width of the button’s border.
-    public var borderLineWidth: CGFloat = 1.0 {
-        didSet {
-            configureButton()
-        }
-    }
-    /// The width of the lines
-    public var lineWidth: CGFloat = 2.5 {
-        didSet {
-            configureButton()
-        }
-    }
-    /// The distance between lines and border.
-    public var offset: CGFloat = 3.3 {
-        didSet {
-            configureButton()
-        }
-    }
-    /// The distance between lines.
-    public var distanceBetweenLines: CGFloat = 8.0 {
-        didSet {
-            configureButton()
-        }
-    }
-    /// Specifies the basic duration of the animation, in seconds.
-    public var animationDuration: CFTimeInterval = 0.3 {
-        didSet {
-            configureButton()
-        }
-    }
-    /// Specifies the basic view of menu. Default is hamburger.
-    public var menuType: MenuType = .hamburger {
-        didSet {
-            configureButton()
-        }
-    }
-    
-    /// Specifies the basic text menu color
-    public var textMenuColor: UIColor = UIColor.black
-    /// Specifies the basic text menu font
-    public var textMenuFont: UIFont = UIFont.systemFont(ofSize: 17.0)
-    /// Specifies the basic text menu font size
-    public var textMenuSize: CGFloat = 17.0
-    /// Specifies the basic cell menu height
-    public var menuCellHeight: CGFloat = 58.0
-    /// Uses only on iPad. Otherwise will be ignoring
-    public var menuWidth: CGFloat = 300.0
 
     /// Initializes and returns a newly allocated view object with the specified frame rectangle.
     ///
@@ -125,7 +75,7 @@ private extension MenuButtonView {
         view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
         view.onDeselect = { [weak self] in self?.toggleMenu() }
         view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
-        view.settings = MenuOwnerViewModelSettings(font: textMenuFont, color: textMenuColor, size: textMenuSize)
+        view.settings = MenuOwnerViewModelSettings(font: configuration.textMenuFont, color: configuration.textMenuColor, size: configuration.textMenuSize)
 
         view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
 
@@ -135,8 +85,8 @@ private extension MenuButtonView {
         view.frame = parentViewBounds
         view.parentFrame = frame
         view.bottomIndent = parentViewBounds.height - frame.origin.y
-        view.cellHeight = menuCellHeight
-        view.menuWidth = menuWidth
+        view.cellHeight = configuration.menuCellHeight
+        view.menuWidth = configuration.menuWidth
         view.dataSource = self.onItems?() ?? []
 
         menuOwnerView = view
@@ -196,7 +146,6 @@ private extension MenuButtonView {
 
     /// This function customizes a main button
     private func configureButton() {
-        let configuration = makeConfigurationForMenuButton()
         let button = MenuButton(frame: self.bounds, configuration: configuration)
 
         button.onOpenedState = { [weak self] in self?.showMenu() }
@@ -217,14 +166,42 @@ private extension MenuButtonView {
 }
 
 private extension MenuButtonView {
-    private func makeConfigurationForMenuButton() -> MenuButtonConfiguration {
-        return MenuButtonConfiguration(strokeColor: strokeColor, 
-                                       borderStrokeColor: borderStrokeColor, 
-                                       borderLineWidth: borderLineWidth, 
-                                       lineWidth: lineWidth, 
-                                       offset: offset, 
-                                       distanceBetweenLines: distanceBetweenLines, 
-                                       animationDuration: animationDuration, 
-                                       menuType: menuType)
+    private func makeConfigurationForMenuButton(from configs: [MenuButtonViewConfig]?) -> MenuButtonConfiguration {
+        var buttonConfig = MenuButtonConfiguration()
+        
+        guard let configs = configs else { return buttonConfig }
+        
+        for config in configs {
+            switch config {
+            case .textMenuColor(let color): 
+                buttonConfig.textMenuColor = color
+            case .textMenuFont(let color):
+                buttonConfig.textMenuFont = color
+            case .textMenuSize(let size):
+                buttonConfig.textMenuSize = size
+            case .menuCellHeight(let height):
+                buttonConfig.menuCellHeight = height
+            case .menuWidth(let width):
+                buttonConfig.menuWidth = width
+            case .strokeColor(let color):
+                buttonConfig.strokeColor = color
+            case .borderStrokeColor(let color):
+                buttonConfig.borderStrokeColor = color
+            case .borderLineWidth(let width):
+                buttonConfig.borderLineWidth = width
+            case .lineWidth(let width):
+                buttonConfig.lineWidth = width
+            case .offset(let offset):
+                buttonConfig.offset = offset
+            case .distanceBetweenLines(let distance):
+                buttonConfig.distanceBetweenLines = distance
+            case .animationDuration(let animationDuration):
+                buttonConfig.animationDuration = animationDuration
+            case .menuType(let menuType):
+                buttonConfig.menuType = menuType
+            }
+        }
+        
+        return buttonConfig
     }
 }

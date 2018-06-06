@@ -35,6 +35,7 @@
 		AC06FD2620BEDB64007CDC0B /* MenuOwnerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC06FD2520BEDB64007CDC0B /* MenuOwnerView.xib */; };
 		AC25C35020C7F1A1003A1789 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC25C34F20C7F1A1003A1789 /* MenuType.swift */; };
 		AC25C35320C7F91D003A1789 /* MenuButtonConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC25C35220C7F91D003A1789 /* MenuButtonConfiguration.swift */; };
+		AC25C35620C818AF003A1789 /* MenuButtonViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC25C35520C818AF003A1789 /* MenuButtonViewConfig.swift */; };
 		AC2F5D1C20C009A000AAF16F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F5D1B20C009A000AAF16F /* AppDelegate.swift */; };
 		AC2F5D1E20C009A000AAF16F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F5D1D20C009A000AAF16F /* ViewController.swift */; };
 		AC2F5D2120C009A000AAF16F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2F5D1F20C009A000AAF16F /* Main.storyboard */; };
@@ -89,6 +90,7 @@
 		AC06FD2520BEDB64007CDC0B /* MenuOwnerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuOwnerView.xib; sourceTree = "<group>"; };
 		AC25C34F20C7F1A1003A1789 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
 		AC25C35220C7F91D003A1789 /* MenuButtonConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonConfiguration.swift; sourceTree = "<group>"; };
+		AC25C35520C818AF003A1789 /* MenuButtonViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonViewConfig.swift; sourceTree = "<group>"; };
 		AC2F5D1920C009A000AAF16F /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC2F5D1B20C009A000AAF16F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC2F5D1D20C009A000AAF16F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		AC06FD0020BEB2C7007CDC0B /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				AC25C35420C8189A003A1789 /* MenuButtonViewConfig */,
 				AC25C34E20C7F18C003A1789 /* MenuType */,
 				ACDF1C1320BFDDF900F860D9 /* Throws */,
 				AC06FD1920BECEF0007CDC0B /* MenuItem */,
@@ -288,6 +291,14 @@
 				AC25C35220C7F91D003A1789 /* MenuButtonConfiguration.swift */,
 			);
 			path = MenuButtonConfiguration;
+			sourceTree = "<group>";
+		};
+		AC25C35420C8189A003A1789 /* MenuButtonViewConfig */ = {
+			isa = PBXGroup;
+			children = (
+				AC25C35520C818AF003A1789 /* MenuButtonViewConfig.swift */,
+			);
+			path = MenuButtonViewConfig;
 			sourceTree = "<group>";
 		};
 		AC2F5D1A20C009A000AAF16F /* Example */ = {
@@ -458,6 +469,7 @@
 				AC06FD0320BEB2F9007CDC0B /* MenuButtonView.swift in Sources */,
 				ACDF1C1920BFE02600F860D9 /* ThrowsConvertedFrame.swift in Sources */,
 				AC06FD0A20BEB7F4007CDC0B /* Typealiases.swift in Sources */,
+				AC25C35620C818AF003A1789 /* MenuButtonViewConfig.swift in Sources */,
 				AC06FD2020BED675007CDC0B /* MenuOwnerViewCell.swift in Sources */,
 				ACDF1C1B20BFE08700F860D9 /* ThrowsParentBounds.swift in Sources */,
 				AC25C35320C7F91D003A1789 /* MenuButtonConfiguration.swift in Sources */,

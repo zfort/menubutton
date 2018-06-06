@@ -9,31 +9,18 @@
 import Foundation
 
 struct MenuButtonConfiguration {
-    let strokeColor: UIColor
-    let borderStrokeColor: UIColor
-    let borderLineWidth: CGFloat
-    let lineWidth: CGFloat
-    let offset: CGFloat
-    let distanceBetweenLines: CGFloat
-    let animationDuration: CFTimeInterval
-    let menuType: MenuType
+    var textMenuColor: UIColor = UIColor.black
+    var textMenuFont: UIFont = UIFont.systemFont(ofSize: 17.0)
+    var textMenuSize: CGFloat = 17.0
+    var menuCellHeight: CGFloat = 58.0
+    var menuWidth: CGFloat = 300.0
     
-    init(strokeColor: UIColor, 
-         borderStrokeColor: UIColor, 
-         borderLineWidth: CGFloat, 
-         lineWidth: CGFloat, 
-         offset: CGFloat, 
-         distanceBetweenLines: CGFloat, 
-         animationDuration: CFTimeInterval, 
-         menuType: MenuType) {
-        
-        self.strokeColor = strokeColor
-        self.borderStrokeColor = borderStrokeColor
-        self.borderLineWidth = borderLineWidth
-        self.lineWidth = lineWidth
-        self.offset = offset
-        self.distanceBetweenLines = distanceBetweenLines
-        self.animationDuration = animationDuration
-        self.menuType = menuType
-    }
+    var strokeColor: UIColor = UIColor.black
+    var borderStrokeColor: UIColor = UIColor.black
+    var borderLineWidth: CGFloat = 1.0
+    var lineWidth: CGFloat = 2.5
+    var offset: CGFloat = 3.3
+    var distanceBetweenLines: CGFloat = 8.0
+    var animationDuration: CFTimeInterval = 0.3
+    var menuType: MenuType = .hamburger
 }

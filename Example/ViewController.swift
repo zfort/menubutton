@@ -20,16 +20,10 @@ class ViewController: UIViewController {
 
 extension ViewController {
     private func configureMenuButtonView() {
-        menuButtonView.strokeColor = .red
-        menuButtonView.borderStrokeColor = .red
-        menuButtonView.textMenuColor = .blue
-        menuButtonView.menuCellHeight = 50.0
-        menuButtonView.menuWidth = 600.0
-        menuButtonView.menuType = .plus
-
         menuButtonView.bindView(self.view)
         menuButtonView.onDeselect = { print("view was deselect") }
         menuButtonView.onItems = makeItems()
+        menuButtonView.onConfigure = makeConfiguration()
     }
 }
 
@@ -45,6 +39,19 @@ extension ViewController {
                 MenuItem(image: UIImage(named: "6")!, text: "Send Email to Mission Creator", action: { print("Clicked at: Send Email to Mission Creator") }),
                 MenuItem(image: UIImage(named: "7")!, text: "Phone Mission Creator", action: { print("Clicked at: Phone Mission Creator") }),
                 MenuItem(image: UIImage(named: "8")!, text: "Hide Mission from Mission List", action: { print("Clicked at: Hide Mission from Mission List") })
+            ]
+        }
+    }
+    
+    private func makeConfiguration() -> (() -> [MenuButtonViewConfig]) {
+        return {
+            return [
+                .strokeColor(.red),
+                .borderStrokeColor(.red),
+                .textMenuColor(.blue),
+                .menuCellHeight(50.0),
+                .menuWidth(600.0),
+                .menuType(.plus)
             ]
         }
     }
