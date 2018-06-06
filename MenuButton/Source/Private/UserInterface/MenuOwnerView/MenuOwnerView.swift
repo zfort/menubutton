@@ -64,6 +64,13 @@ private extension MenuOwnerView {
 
         animator?.startAnimation()
     }
+    
+    private func redrawTableViewFrame() {
+        tableViewOwnerView.frame = CGRect(x: self.tableViewXPosition,
+                                          y: self.tableViewYPosition,
+                                          width: self.tableViewWidth,
+                                          height: self.tableViewHeight)
+    }
 }
 
 private extension MenuOwnerView {
@@ -127,7 +134,7 @@ private extension MenuOwnerView {
             return
         }
 
-        reloadDataSource()
+        redrawTableViewFrame()
     }
 
     @objc private func handleBackgroundTounch(_ sender: UITapGestureRecognizer) {
