@@ -41,9 +41,7 @@ let menuButtonView = MenuButtonView(frame: CGRect(x: 295.0, y: 587.0, width: 60.
 menuButtonView.bindView(self.view)
 menuButtonView.onDeselect = { print("view was deselect") }
 menuButtonView.onItems = makeItems()
-menuButtonView.strokeColor = .red
-menuButtonView.borderStrokeColor = .red
-menuButtonView.textMenuColor = .blue
+menuButtonView.onConfigure = makeConfiguration()
 ```
 
 ### MenuItem
@@ -63,7 +61,40 @@ func makeItems() -> (() -> [MenuItem])  {
                 MenuItem(image: UIImage(named: "8")!, text: "Hide Mission from Mission List", action: { print("Clicked at: Hide Mission from Mission List") })
             ]
         }
-    }
+}
+```
+
+### MenuButtonViewConfig
+The class that configured a [MenuButton](https://github.com/zfort/menubutton/blob/master/MenuButton/Source/Public/MenuButtonViewConfig/MenuButtonViewConfig.swift)
+```swift
+public enum MenuButtonViewConfig {
+    case textMenuColor(UIColor)
+    case textMenuFont(UIFont)
+    case textMenuSize(CGFloat)
+    case menuCellHeight(CGFloat)
+    case menuWidth(CGFloat)
+    case strokeColor(UIColor)
+    case borderStrokeColor(UIColor)
+    case borderLineWidth(CGFloat)
+    case lineWidth(CGFloat)
+    case offset(CGFloat)
+    case distanceBetweenLines(CGFloat)
+    case animationDuration(CFTimeInterval)
+    case menuType(MenuType)
+}
+```
+```swift
+private func makeConfiguration() -> (() -> [MenuButtonViewConfig]) {
+        return {
+            return [
+                .strokeColor(.red),
+                .borderStrokeColor(.red),
+                .textMenuColor(.blue),
+                .menuCellHeight(50.0),
+                .menuWidth(600.0),
+            ]
+        }
+}
 ```
 
 The upcoming subsection will explain all properties of a [MenuButton](https://github.com/zfort/menubutton/blob/master/MenuButton/Source/Public/MenuButtonView/MenuButtonView.swift).
@@ -77,53 +108,9 @@ var onDeselect: (() -> Void)?
 ```swift
 var onItems: (() -> [MenuItem])?
 ```
-##### The color that will be used in all line. Default value is UIColor.black.
+### Calls when menu needs get configure itself.
 ```swift
-var strokeColor: UIColor
-```
-##### The color that will be used for the border. Default value is UIColor.black.
-```swift
-var borderStrokeColor: UIColor
-```
-##### The width of the button’s border. Default value is 1.0.
-```swift
-var borderLineWidth: CGFloat
-```
-##### The width of the lines. Default value is 2.5.
-```swift
-var lineWidth: CGFloat
-```
-##### The distance between lines and border. Default value is 3.3.
-```swift
-var offset: CGFloat
-```
-##### The distance between lines. Default value is 8.0.
-```swift
-var distanceBetweenLines: CGFloat
-```
-##### Specifies the basic duration of the animation, in seconds. Default value is 0.3.
-```swift
-var animationDuration: CFTimeInterval
-```
-##### Specifies the basic text menu color. Default value is UIColor.black.
-```swift
-var textMenuColor: UIColor
-```
-##### Specifies the basic text menu font. Default value is systemFont.
-```swift
-var textMenuFont: UIFont
-```
-##### Specifies the basic text menu font size. Default value is 17.0.
-```swift
-var textMenuSize: CGFloat
-```
-##### Specifies the basic cell menu height. Default value is UIColor.black.
-```swift
-var menuCellHeight: CGFloat
-```
-##### Uses only on iPad. Otherwise will be ignoring. Default value is 300.
-```swift
-var menuWidth: CGFloat
+var onConfigure: (() -> [MenuButtonViewConfig])?
 ```
 
 ## Contributing

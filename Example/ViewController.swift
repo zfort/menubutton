@@ -51,7 +51,6 @@ extension ViewController {
                 .textMenuColor(.blue),
                 .menuCellHeight(50.0),
                 .menuWidth(600.0),
-                .menuType(.plus)
             ]
         }
     }
