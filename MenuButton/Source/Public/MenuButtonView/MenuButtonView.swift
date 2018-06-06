@@ -63,6 +63,13 @@ public final class MenuButtonView: UIView {
             configureButton()
         }
     }
+    /// Specifies the basic view of menu. Default is hamburger.
+    public var menuType: MenuType = .hamburger {
+        didSet {
+            configureButton()
+        }
+    }
+    
     /// Specifies the basic text menu color
     public var textMenuColor: UIColor = UIColor.black
     /// Specifies the basic text menu font
@@ -189,15 +196,9 @@ private extension MenuButtonView {
 
     /// This function customizes a main button
     private func configureButton() {
-        let button = MenuButton(frame: self.bounds)
+        let configuration = makeConfigurationForMenuButton()
+        let button = MenuButton(frame: self.bounds, configuration: configuration)
 
-        button.strokeColor = strokeColor
-        button.borderStrokeColor = borderStrokeColor
-        button.borderLineWidth = borderLineWidth
-        button.lineWidth = lineWidth
-        button.offset = offset
-        button.distanceBetweenLines = distanceBetweenLines
-        button.animationDuration = animationDuration
         button.onOpenedState = { [weak self] in self?.showMenu() }
         button.onClosedState = { [weak self] in self?.hideMenu() }
 
@@ -212,5 +213,18 @@ private extension MenuButtonView {
         animation.type = kCATransitionReveal
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         return animation
+    }
+}
+
+private extension MenuButtonView {
+    private func makeConfigurationForMenuButton() -> MenuButtonConfiguration {
+        return MenuButtonConfiguration(strokeColor: strokeColor, 
+                                       borderStrokeColor: borderStrokeColor, 
+                                       borderLineWidth: borderLineWidth, 
+                                       lineWidth: lineWidth, 
+                                       offset: offset, 
+                                       distanceBetweenLines: distanceBetweenLines, 
+                                       animationDuration: animationDuration, 
+                                       menuType: menuType)
     }
 }

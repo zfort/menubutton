@@ -17,78 +17,60 @@ final class MenuButton: UIButton {
     private let middleLine = CAShapeLayer()
     /// The representation of bottom line
     private let bottomLine = CAShapeLayer()
+    /// The representation of vertical line
+    private let verticalLine = CAShapeLayer()
+    /// The representation of horizontal line
+    private let horizontalLine = CAShapeLayer()
     /// The indicator about current button's state
     private var isCrossed: Bool = false
+    /// The color that will be used in all line
+    private let strokeColor: UIColor
+    /// The color that will be used in border of this button
+    private let borderStrokeColor: UIColor
+    /// The width of the button’s border.
+    private let borderLineWidth: CGFloat
+    /// The width of the lines
+    private let lineWidth: CGFloat
+    /// Really strange property. Was conceived as distance between lines and border.
+    /// Warning: Be careful
+    private let offset: CGFloat
+    /// Really strange property. Was conceived as distance between lines.
+    /// Warning: Be careful
+    private let distanceBetweenLines: CGFloat
+    /// Specifies the basic duration of the animation, in seconds.
+    private let animationDuration: CFTimeInterval
+    /// Specifies the basic view of menu. Default is hamburger.
+    private let menuType: MenuType
+    /// Magic number
+    private let crossMultiplier: CGFloat = 2.7
     /// This state is invoked when button has `hamburger` state, after user clicked on button. Button will looks like `cross`
     var onOpenedState: EmptyClosure?
     /// This state is invoked when button has `cross` state, after user clicked on button. Button will looks like `hamburger`
     var onClosedState: EmptyClosure?
-
-    /// The color that will be used in all line
-    var strokeColor: UIColor = UIColor.black {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// The color that will be used in border of this button
-    var borderStrokeColor: UIColor = UIColor.black {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// The width of the button’s border.
-    var borderLineWidth: CGFloat = 1.0 {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// The width of the lines
-    var lineWidth: CGFloat = 2.5 {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// Really strange property. Was conceived as distance between lines and border.
-    /// Warning: Be careful
-    var offset: CGFloat = 3.3 {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// Really strange property. Was conceived as distance between lines.
-    /// Warning: Be careful
-    var distanceBetweenLines: CGFloat = 8.0 {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// Specifies the basic duration of the animation, in seconds.
-    var animationDuration: CFTimeInterval = 0.3 {
-        didSet {
-            configure(with: strokeColor)
-        }
-    }
-    /// Magic number
-    private let crossMultiplier: CGFloat = 2.7
-
+    
     /// Initializes and returns a newly allocated view object with the specified frame rectangle.
     ///
-    /// - Parameter frame: The frame rectangle for the view, measured in points.
-    ///                    The origin of the frame is relative to the superview in which you plan to add it.
-    ///                    This method uses the frame rectangle to set the `center` and `bounds` properties accordingly.
-    public override init(frame: CGRect) {
+    /// - Parameters:
+    ///   - frame: The frame rectangle for the view, measured in points.
+    ///            The origin of the frame is relative to the superview in which you plan to add it.
+    ///            This method uses the frame rectangle to set the `center` and `bounds` properties accordingly.
+    ///   - configuration: The configuration of menu.
+    public init(frame: CGRect, configuration: MenuButtonConfiguration) {
+        self.strokeColor = configuration.strokeColor
+        self.borderStrokeColor = configuration.borderStrokeColor
+        self.borderLineWidth = configuration.borderLineWidth
+        self.lineWidth = configuration.lineWidth
+        self.offset = configuration.offset
+        self.distanceBetweenLines = configuration.distanceBetweenLines
+        self.animationDuration = configuration.animationDuration
+        self.menuType = configuration.menuType
         super.init(frame: frame)
+        
         configure(with: strokeColor)
     }
-
-    /// Returns an object initialized from data in a given unarchiver.
-    /// You typically return self from ]init(coder:)].
-    /// If you have an advanced need that requires substituting a different object after decoding, you can do so in `awakeAfter(using:)`.
-    ///
-    /// - Parameter aDecoder: An unarchiver object.
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configure(with: strokeColor)
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -111,11 +93,23 @@ extension MenuButton {
 private extension MenuButton {
     private func prepapeForAnimation() {
         if isCrossed {
-            animateToHamburger()
+            
+            if menuType == .hamburger {
+                animateToHamburger()
+            } else {
+                animateToPlus()
+            }
+            
             isCrossed = false
             onClosedState?()
         } else {
-            animateToCross()
+            
+            if menuType == .hamburger {
+                animateToCross()
+            } else {
+                animatePlusToCross()
+            }
+            
             isCrossed = true
             onOpenedState?()
         }
@@ -125,9 +119,25 @@ private extension MenuButton {
 private extension MenuButton {
     private func configure(with color: UIColor) {
         configureButton()
+        configureMenuRepresentation()
+    }
+    
+    private func configureMenuRepresentation() {
+        switch menuType {
+        case .hamburger: configureHamburgerRepresentation()
+        case .plus: configurePlusRepresentation()
+        }
+    }
+    
+    private func configureHamburgerRepresentation() {
         configureTopLine()
         configureMiddleLine()
         configureBottomLine()
+    }
+    
+    private func configurePlusRepresentation() {
+        configureVerticalLine()
+        configureHorizontalLine()
     }
 
     private func configureButton() {
@@ -177,6 +187,32 @@ private extension MenuButton {
 
         layer.addSublayer(bottomLine)
     }
+    
+    private func configureVerticalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / 2, y: frame.height / offset))
+        linePath.addLine(to: CGPoint(x: frame.width / 2, y: frame.height - (frame.height / offset)))
+        
+        verticalLine.path = linePath.cgPath
+        verticalLine.lineWidth = lineWidth
+        verticalLine.strokeColor = strokeColor.cgColor
+        verticalLine.lineCap = kCALineCapSquare
+        
+        layer.addSublayer(verticalLine)
+    }
+    
+    private func configureHorizontalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / offset, y: frame.height / 2))
+        linePath.addLine(to: CGPoint(x: frame.width - (frame.width / offset), y: frame.height / 2))
+        
+        horizontalLine.path = linePath.cgPath
+        horizontalLine.lineWidth = lineWidth
+        horizontalLine.strokeColor = strokeColor.cgColor
+        horizontalLine.lineCap = kCALineCapSquare
+        
+        layer.addSublayer(horizontalLine)
+    }
 }
 
 private extension MenuButton {
@@ -190,6 +226,76 @@ private extension MenuButton {
         animateToCrossTopLine()
         animateToCrossMiddleLine()
         animateToCrossBottomLine()
+    }
+    
+    private func animateToPlus() {
+        animateToPlusVerticalLine()
+        animateToPlusHorizontalLine()
+    }
+    
+    private func animatePlusToCross() {
+        animateToCrossVerticalLine()
+        animateToCrossHorizontalLine()
+    }
+}
+
+private extension MenuButton {
+    private func animateToPlusVerticalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / 2, y: frame.height / offset))
+        linePath.addLine(to: CGPoint(x: frame.width / 2, y: frame.height - (frame.height / offset)))
+        
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.toValue = linePath.cgPath
+        animation.duration = animationDuration
+        animation.fillMode = kCAFillModeForwards
+        animation.isRemovedOnCompletion = false
+        
+        verticalLine.add(animation, forKey: "verticalLineAnimation")
+    }
+    
+    private func animateToPlusHorizontalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / offset, y: frame.height / 2))
+        linePath.addLine(to: CGPoint(x: frame.width - (frame.width / offset), y: frame.height / 2))
+        
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.toValue = linePath.cgPath
+        animation.duration = animationDuration
+        animation.fillMode = kCAFillModeForwards
+        animation.isRemovedOnCompletion = false
+        
+        horizontalLine.add(animation, forKey: "horizontalLineAnimation")
+    }
+}
+
+private extension MenuButton {
+    private func animateToCrossVerticalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / crossMultiplier, y: frame.height / crossMultiplier))
+        linePath.addLine(to: CGPoint(x: frame.width - (frame.width / crossMultiplier), y: frame.height - (frame.height / crossMultiplier)))
+        
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.toValue = linePath.cgPath
+        animation.duration = animationDuration
+        animation.fillMode = kCAFillModeForwards
+        animation.isRemovedOnCompletion = false
+        
+        verticalLine.add(animation, forKey: "verticalLineAnimationCross")
+    }
+    
+    private func animateToCrossHorizontalLine() {
+        let linePath = UIBezierPath()
+        linePath.move(to: CGPoint(x: frame.width / crossMultiplier, y: frame.height - (frame.height / crossMultiplier)))
+        linePath.addLine(to: CGPoint(x: frame.width - (frame.width / crossMultiplier), y: frame.height / crossMultiplier))
+        
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.toValue = linePath.cgPath
+        animation.duration = animationDuration
+        animation.fillMode = kCAFillModeForwards
+        animation.isRemovedOnCompletion = false
+        
+        horizontalLine.add(animation, forKey: "horizontalLineAnimationCross")
     }
 }
 
