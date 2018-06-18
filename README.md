@@ -81,6 +81,7 @@ enum MenuButtonViewConfig {
     case distanceBetweenLines(CGFloat)
     case animationDuration(CFTimeInterval)
     case menuType(MenuType)
+    case showType(MenuShowType)
 }
 ```
 ```swift
