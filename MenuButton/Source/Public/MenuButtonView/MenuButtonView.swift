@@ -50,6 +50,11 @@ public final class MenuButtonView: UIView {
         super.init(coder: aDecoder)
         configureView()
     }
+    
+    /// Initializes and returns a newly allocated view object with zero frame rectangle.
+    public convenience init() {
+        self.init(frame: CGRect.zero)
+    }
 }
 
 // MARK: - Private part of this view
@@ -60,6 +65,10 @@ public extension MenuButtonView {
     public func bindView(_ view: UIView) {
         parentView = view
     }
+    
+    public func show() {
+        showMenu()
+    }
 }
 
 // MARK: - Private part of this view
@@ -67,28 +76,44 @@ public extension MenuButtonView {
 private extension MenuButtonView {
     /// Shows customized menu above button
     private func showMenu() {
-        let buttonSuperview = getSuperview(from: menuButton)
-        let frame = convertFrameRelativeAncestor(buttonSuperview, convertible: menuButton, to: parentView)
-        let parentViewBounds = safeParentViewBounds(parentView)
+        menuOwnerView?.removeFromSuperview()
+        
+        let frame: CGRect
+        let parentViewBounds: CGRect
+        let bottomIndent: CGFloat
+        
+        if case MenuShowType.default = configuration.showType {
+            let buttonSuperview = getSuperview(from: menuButton)
+            
+            frame = convertFrameRelativeAncestor(buttonSuperview, convertible: menuButton, to: parentView)
+            parentViewBounds = safeParentViewBounds(parentView)
+            bottomIndent = parentViewBounds.height - frame.origin.y
+        } else {
+            frame = safeParentViewBounds(parentView)
+            parentViewBounds = safeParentViewBounds(parentView)
+            bottomIndent = 10.0
+        }
+        
         let view: MenuOwnerView = MenuOwnerView.fromNib()
-
+        
         view.onSelected = { [weak self] in self?.toggleMenu(isDeselected: false) }
         view.onDeselect = { [weak self] in self?.toggleMenu() }
         view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: configuration.textMenuFont, color: configuration.textMenuColor, size: configuration.textMenuSize)
-
+        
         view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
-
+        
         parentView?.addSubview(view)
         parentView?.bringSubview(toFront: self)
-
+        
         view.frame = parentViewBounds
         view.parentFrame = frame
-        view.bottomIndent = parentViewBounds.height - frame.origin.y
+        view.bottomIndent = bottomIndent
         view.cellHeight = configuration.menuCellHeight
         view.menuWidth = configuration.menuWidth
+        view.showType = configuration.showType
         view.dataSource = self.onItems?() ?? []
-
+        
         menuOwnerView = view
     }
 
@@ -116,7 +141,11 @@ private extension MenuButtonView {
 
     private func toggleMenu(isDeselected: Bool = true) {
         onMainThread {
-            self.menuButton?.toggleButton()
+            if case MenuShowType.default = self.configuration.showType {
+                self.menuButton?.toggleButton()
+            } else {
+                self.hideMenu()
+            }
 
             if isDeselected {
                 self.onDeselect?()
@@ -146,14 +175,17 @@ private extension MenuButtonView {
 
     /// This function customizes a main button
     private func configureButton() {
-        let button = MenuButton(frame: self.bounds, configuration: configuration)
-
-        button.onOpenedState = { [weak self] in self?.showMenu() }
-        button.onClosedState = { [weak self] in self?.hideMenu() }
-
         menuButton?.removeFromSuperview()
-        addSubview(button)
-        menuButton = button
+        
+        if case MenuShowType.default = configuration.showType {
+            let button = MenuButton(frame: self.bounds, configuration: configuration)
+            
+            button.onOpenedState = { [weak self] in self?.showMenu() }
+            button.onClosedState = { [weak self] in self?.hideMenu() }
+            
+            addSubview(button)
+            menuButton = button
+        }
     }
 
     private func configureAnimationTransition() -> CATransition {
@@ -199,6 +231,8 @@ private extension MenuButtonView {
                 buttonConfig.animationDuration = animationDuration
             case .menuType(let menuType):
                 buttonConfig.menuType = menuType
+            case .showType(let showType):
+                buttonConfig.showType = showType
             }
         }
         
