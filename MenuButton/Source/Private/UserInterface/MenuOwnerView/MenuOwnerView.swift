@@ -169,7 +169,8 @@ extension MenuOwnerView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemViewModel = dataSource[indexPath.row]
-        itemViewModel.action?()
+        
+        onMainThreadWithDelay { itemViewModel.action?() }
         onSelected?()
         unsubscribeForDeviceOrientationChanging()
     }

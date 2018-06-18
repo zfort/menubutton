@@ -22,3 +22,7 @@ func onBackgroundThread(_ block: @escaping EmptyClosure) {
 func onUserInitiatedThread(_ block: @escaping EmptyClosure) {
     DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async(execute: block)
 }
+
+func onMainThreadWithDelay(_ block: @escaping EmptyClosure) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: block)
+}

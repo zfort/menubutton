@@ -76,6 +76,7 @@ public extension MenuButtonView {
 private extension MenuButtonView {
     /// Shows customized menu above button
     private func showMenu() {
+        menuOwnerView?.layer.removeAllAnimations()
         menuOwnerView?.removeFromSuperview()
         
         let frame: CGRect
