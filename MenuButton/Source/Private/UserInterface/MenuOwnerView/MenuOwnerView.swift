@@ -37,6 +37,7 @@ final class MenuOwnerView: UIView {
     /// Call if it's only ipad
     var onForcedClosure: EmptyClosure?
     var settings: MenuOwnerViewModelSettings?
+    var showType: MenuShowType = .default
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,16 +50,10 @@ private extension MenuOwnerView {
         tableView.reloadData()
 
         tableViewOwnerView.alpha = 0.0
-        tableViewOwnerView.frame = CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2,
-                                          y: parentFrame.origin.y - parentFrame.size.height / 2,
-                                          width: 0,
-                                          height: 0)
+        tableViewOwnerView.frame = initialTableViewFrame
 
         animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1.0, animations: {
-            self.tableViewOwnerView.frame = CGRect(x: self.tableViewXPosition,
-                                                   y: self.tableViewYPosition,
-                                                   width: self.tableViewWidth,
-                                                   height: self.tableViewHeight)
+            self.tableViewOwnerView.frame = self.finalTableViewFrame
             self.tableViewOwnerView.alpha = 1
         })
 
@@ -66,10 +61,7 @@ private extension MenuOwnerView {
     }
     
     private func redrawTableViewFrame() {
-        tableViewOwnerView.frame = CGRect(x: self.tableViewXPosition,
-                                          y: self.tableViewYPosition,
-                                          width: self.tableViewWidth,
-                                          height: self.tableViewHeight)
+        tableViewOwnerView.frame = finalTableViewFrame
     }
 }
 
@@ -177,7 +169,8 @@ extension MenuOwnerView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let itemViewModel = dataSource[indexPath.row]
-        itemViewModel.action?()
+        
+        onMainThreadWithDelay { itemViewModel.action?() }
         onSelected?()
         unsubscribeForDeviceOrientationChanging()
     }
@@ -210,5 +203,18 @@ private extension MenuOwnerView {
 
     private var isContentSizeLessThanParentSize: Bool {
         return tableView.contentSize.height + self.bottomIndent + self.ownerViewBottomIndent < frame.size.height
+    }
+    
+    private var initialTableViewFrame: CGRect {
+        if case MenuShowType.default = showType {
+            return CGRect(x: parentFrame.origin.x - parentFrame.size.width / 2, y: parentFrame.origin.y - parentFrame.size.height / 2, width: 0, height: 0)
+
+        }
+        
+        return CGRect(x: 0, y: parentFrame.height + parentFrame.height, width: parentFrame.width, height: parentFrame.height)
+    }
+    
+    private var finalTableViewFrame: CGRect {
+        return CGRect(x: self.tableViewXPosition, y: self.tableViewYPosition, width: self.tableViewWidth, height: self.tableViewHeight)
     }
 }

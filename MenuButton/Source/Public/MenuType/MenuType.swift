@@ -10,3 +10,8 @@ public enum MenuType {
     case hamburger
     case plus
 }
+
+public enum MenuShowType {
+    case `default`
+    case actionSheet
+}

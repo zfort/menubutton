@@ -23,4 +23,5 @@ struct MenuButtonConfiguration {
     var distanceBetweenLines: CGFloat = 8.0
     var animationDuration: CFTimeInterval = 0.3
     var menuType: MenuType = .hamburger
+    var showType: MenuShowType = .default
 }
