@@ -23,6 +23,7 @@ import UIKit
 /// - distanceBetweenLines: The distance between lines. Used only with menuType .hamburger
 /// - animationDuration: Specifies the basic duration of the animation, in seconds.
 /// - menuType: Specifies the basic view of menu.
+/// - showType: Specifies how the menu will appear. Default value is menu with button.
 public enum MenuButtonViewConfig {
     case textMenuColor(UIColor)
     case textMenuFont(UIFont)
@@ -37,4 +38,5 @@ public enum MenuButtonViewConfig {
     case distanceBetweenLines(CGFloat)
     case animationDuration(CFTimeInterval)
     case menuType(MenuType)
+    case showType(MenuShowType)
 }
