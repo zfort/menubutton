@@ -50,6 +50,7 @@
 		AC73CC8D20D7BD05002A4CBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC73CC8B20D7BD05002A4CBB /* LaunchScreen.storyboard */; };
 		AC73CC9220D7DDB3002A4CBB /* MenuButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC06FCF320BEB1D2007CDC0B /* MenuButton.framework */; };
 		AC73CC9320D7DDB3002A4CBB /* MenuButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AC06FCF320BEB1D2007CDC0B /* MenuButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AC84743F20D8F225009496B3 /* MenuButtonViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC84743E20D8F225009496B3 /* MenuButtonViewHelper.swift */; };
 		ACDF1C1520BFDE2500F860D9 /* ThrowsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDF1C1420BFDE2500F860D9 /* ThrowsSettings.swift */; };
 		ACDF1C1720BFDF0100F860D9 /* ThrowsSupeview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDF1C1620BFDF0100F860D9 /* ThrowsSupeview.swift */; };
 		ACDF1C1920BFE02600F860D9 /* ThrowsConvertedFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDF1C1820BFE02600F860D9 /* ThrowsConvertedFrame.swift */; };
@@ -130,6 +131,7 @@
 		AC73CC8920D7BD05002A4CBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC73CC8C20D7BD05002A4CBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC73CC8E20D7BD05002A4CBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC84743E20D8F225009496B3 /* MenuButtonViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonViewHelper.swift; sourceTree = "<group>"; };
 		ACDF1C1420BFDE2500F860D9 /* ThrowsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowsSettings.swift; sourceTree = "<group>"; };
 		ACDF1C1620BFDF0100F860D9 /* ThrowsSupeview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowsSupeview.swift; sourceTree = "<group>"; };
 		ACDF1C1820BFE02600F860D9 /* ThrowsConvertedFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrowsConvertedFrame.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		AC06FD0420BEB757007CDC0B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AC84743D20D8F1FE009496B3 /* Helper */,
 				AC06FD2220BED770007CDC0B /* MenuOwnerViewModel */,
 				AC06FD1620BEC13B007CDC0B /* Extensions */,
 				AC06FD0820BEB7E3007CDC0B /* Typealiases */,
@@ -367,6 +370,14 @@
 				AC73CC8E20D7BD05002A4CBB /* Info.plist */,
 			);
 			path = "Example-ActionSheet";
+			sourceTree = "<group>";
+		};
+		AC84743D20D8F1FE009496B3 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				AC84743E20D8F225009496B3 /* MenuButtonViewHelper.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		ACDF1C1320BFDDF900F860D9 /* Throws */ = {
@@ -552,6 +563,7 @@
 			files = (
 				ACDF1C1720BFDF0100F860D9 /* ThrowsSupeview.swift in Sources */,
 				AC06FD1B20BECEFF007CDC0B /* MenuItem.swift in Sources */,
+				AC84743F20D8F225009496B3 /* MenuButtonViewHelper.swift in Sources */,
 				AC06FD0E20BEBA09007CDC0B /* MenuButton.swift in Sources */,
 				AC06FD0720BEB7A6007CDC0B /* CGDHelpers.swift in Sources */,
 				AC06FD0320BEB2F9007CDC0B /* MenuButtonView.swift in Sources */,

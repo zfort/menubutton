@@ -26,7 +26,7 @@ public final class MenuButtonView: UIView {
     /// Calls when menu needs get configure itself
     public var onConfigure: (() -> [MenuButtonViewConfig])? {
         didSet {
-            configuration = makeConfigurationForMenuButton(from: onConfigure?())
+            configuration = MenuButtonViewHelper.makeConfigurationForMenuButton(from: onConfigure?())
             configureButton()
         }
     }
@@ -195,48 +195,5 @@ private extension MenuButtonView {
         animation.type = kCATransitionReveal
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         return animation
-    }
-}
-
-private extension MenuButtonView {
-    private func makeConfigurationForMenuButton(from configs: [MenuButtonViewConfig]?) -> MenuButtonConfiguration {
-        var buttonConfig = MenuButtonConfiguration()
-        
-        guard let configs = configs else { return buttonConfig }
-        
-        for config in configs {
-            switch config {
-            case .textMenuColor(let color): 
-                buttonConfig.textMenuColor = color
-            case .textMenuFont(let color):
-                buttonConfig.textMenuFont = color
-            case .textMenuSize(let size):
-                buttonConfig.textMenuSize = size
-            case .menuCellHeight(let height):
-                buttonConfig.menuCellHeight = height
-            case .menuWidth(let width):
-                buttonConfig.menuWidth = width
-            case .strokeColor(let color):
-                buttonConfig.strokeColor = color
-            case .borderStrokeColor(let color):
-                buttonConfig.borderStrokeColor = color
-            case .borderLineWidth(let width):
-                buttonConfig.borderLineWidth = width
-            case .lineWidth(let width):
-                buttonConfig.lineWidth = width
-            case .offset(let offset):
-                buttonConfig.offset = offset
-            case .distanceBetweenLines(let distance):
-                buttonConfig.distanceBetweenLines = distance
-            case .animationDuration(let animationDuration):
-                buttonConfig.animationDuration = animationDuration
-            case .menuType(let menuType):
-                buttonConfig.menuType = menuType
-            case .showType(let showType):
-                buttonConfig.showType = showType
-            }
-        }
-        
-        return buttonConfig
     }
 }
