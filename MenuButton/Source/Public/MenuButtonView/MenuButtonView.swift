@@ -121,27 +121,24 @@ private extension MenuButtonView {
     /// Hides menu
     private func hideMenu() {
         onMainThread {
-            self.animateSnapshotMenu { [weak self] in
-                self?.menuOwnerView?.removeFromSuperview()
-                self?.menuOwnerView = nil
-            }
+            self.animateSnapshotMenu()
         }
     }
 
-    private func animateSnapshotMenu(completion: @escaping (() -> Void)) {
+    private func animateSnapshotMenu() {
         guard let menuOwnerView = menuOwnerView, let snapshot = menuOwnerView.snapshotView(afterScreenUpdates: false) else {
-            completion()
             return
         }
 
         snapshot.frame = menuOwnerView.frame
         menuOwnerView.superview?.insertSubview(snapshot, aboveSubview: menuOwnerView)
+        menuOwnerView.removeFromSuperview()
+        self.menuOwnerView = nil
 
         UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             snapshot.alpha = 0.0
         }, completion: { _ in
             snapshot.removeFromSuperview()
-            completion()
         })
     }
 
