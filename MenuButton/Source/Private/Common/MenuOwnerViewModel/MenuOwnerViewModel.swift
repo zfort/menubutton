@@ -20,9 +20,9 @@ final class MenuOwnerViewModelSettings {
     }
 
     func makeAttributedString(_ string: String) -> NSAttributedString {
-        let attributes: [NSAttributedStringKey: Any] = [
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.font: font.withSize(size)
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: color,
+            NSAttributedString.Key.font: font.withSize(size)
         ]
 
         return NSAttributedString(string: string, attributes: attributes)

@@ -157,7 +157,7 @@ private extension MenuButton {
         topLine.path = linePath.cgPath
         topLine.lineWidth = lineWidth
         topLine.strokeColor = strokeColor.cgColor
-        topLine.lineCap = kCALineCapSquare
+        topLine.lineCap = CAShapeLayerLineCap.square
 
         layer.addSublayer(topLine)
     }
@@ -170,7 +170,7 @@ private extension MenuButton {
         middleLine.path = linePath.cgPath
         middleLine.lineWidth = lineWidth
         middleLine.strokeColor = strokeColor.cgColor
-        middleLine.lineCap = kCALineCapSquare
+        middleLine.lineCap = CAShapeLayerLineCap.square
 
         layer.addSublayer(middleLine)
     }
@@ -183,7 +183,7 @@ private extension MenuButton {
         bottomLine.path = linePath.cgPath
         bottomLine.lineWidth = lineWidth
         bottomLine.strokeColor = strokeColor.cgColor
-        bottomLine.lineCap = kCALineCapSquare
+        bottomLine.lineCap = CAShapeLayerLineCap.square
 
         layer.addSublayer(bottomLine)
     }
@@ -196,7 +196,7 @@ private extension MenuButton {
         verticalLine.path = linePath.cgPath
         verticalLine.lineWidth = lineWidth
         verticalLine.strokeColor = strokeColor.cgColor
-        verticalLine.lineCap = kCALineCapSquare
+        verticalLine.lineCap = CAShapeLayerLineCap.square
         
         layer.addSublayer(verticalLine)
     }
@@ -209,7 +209,7 @@ private extension MenuButton {
         horizontalLine.path = linePath.cgPath
         horizontalLine.lineWidth = lineWidth
         horizontalLine.strokeColor = strokeColor.cgColor
-        horizontalLine.lineCap = kCALineCapSquare
+        horizontalLine.lineCap = CAShapeLayerLineCap.square
         
         layer.addSublayer(horizontalLine)
     }
@@ -248,7 +248,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         
         verticalLine.add(animation, forKey: "verticalLineAnimation")
@@ -262,7 +262,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         
         horizontalLine.add(animation, forKey: "horizontalLineAnimation")
@@ -278,7 +278,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         
         verticalLine.add(animation, forKey: "verticalLineAnimationCross")
@@ -292,7 +292,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         
         horizontalLine.add(animation, forKey: "horizontalLineAnimationCross")
@@ -308,7 +308,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         topLine.add(animation, forKey: "topLineAnimationCross")
@@ -318,7 +318,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "opacity")
         animation.toValue = 0.0
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         middleLine.add(animation, forKey: "middleLineAnimationCross")
@@ -332,7 +332,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         bottomLine.add(animation, forKey: "bottomLineAnimationCross")
@@ -348,7 +348,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         topLine.add(animation, forKey: "topLineAnimation")
@@ -358,7 +358,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "opacity")
         animation.toValue = 1.0
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         middleLine.add(animation, forKey: "middleLineAnimation")
@@ -372,7 +372,7 @@ private extension MenuButton {
         let animation = CABasicAnimation(keyPath: "path")
         animation.toValue = linePath.cgPath
         animation.duration = animationDuration
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
 
         bottomLine.add(animation, forKey: "bottomLineAnimation")

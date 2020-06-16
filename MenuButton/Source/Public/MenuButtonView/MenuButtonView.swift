@@ -62,11 +62,11 @@ public extension MenuButtonView {
     /// Allows to show menu view above parent view
     ///
     /// - Parameter view: A view where will be show menu. Uses view bounds.
-    public func bindView(_ view: UIView) {
+    func bindView(_ view: UIView) {
         parentView = view
     }
     
-    public func show() {
+    func show() {
         showMenu()
     }
 }
@@ -102,10 +102,10 @@ private extension MenuButtonView {
         view.onForcedClosure = { [weak self] in self?.forceToggleMenu() }
         view.settings = MenuOwnerViewModelSettings(font: configuration.textMenuFont, color: configuration.textMenuColor, size: configuration.textMenuSize)
         
-        view.layer.add(configureAnimationTransition(), forKey: kCATransitionReveal)
+        view.layer.add(configureAnimationTransition(), forKey: convertFromCATransitionType(CATransitionType.reveal))
         
         parentView?.addSubview(view)
-        parentView?.bringSubview(toFront: self)
+        parentView?.bringSubviewToFront(self)
         
         view.frame = parentViewBounds
         view.parentFrame = frame
@@ -135,7 +135,7 @@ private extension MenuButtonView {
         menuOwnerView.removeFromSuperview()
         self.menuOwnerView = nil
 
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             snapshot.alpha = 0.0
         }, completion: { _ in
             snapshot.removeFromSuperview()
@@ -194,8 +194,13 @@ private extension MenuButtonView {
     private func configureAnimationTransition() -> CATransition {
         let animation = CATransition.init()
         animation.duration = 0.3
-        animation.type = kCATransitionReveal
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        animation.type = CATransitionType.reveal
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         return animation
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCATransitionType(_ input: CATransitionType) -> String {
+	return input.rawValue
 }

@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B93972F24991AFA00838C29 /* MenuButton.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 1B93972E24991AFA00838C29 /* MenuButton.podspec */; };
 		AC06FCF820BEB1D2007CDC0B /* MenuButton.h in Headers */ = {isa = PBXBuildFile; fileRef = AC06FCF620BEB1D2007CDC0B /* MenuButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC06FD0320BEB2F9007CDC0B /* MenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC06FD0220BEB2F9007CDC0B /* MenuButtonView.swift */; };
 		AC06FD0720BEB7A6007CDC0B /* CGDHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC06FD0620BEB7A6007CDC0B /* CGDHelpers.swift */; };
@@ -100,6 +101,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B93972E24991AFA00838C29 /* MenuButton.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MenuButton.podspec; sourceTree = "<group>"; };
 		AC06FCF320BEB1D2007CDC0B /* MenuButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MenuButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC06FCF620BEB1D2007CDC0B /* MenuButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuButton.h; sourceTree = "<group>"; };
 		AC06FCF720BEB1D2007CDC0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		AC06FCE920BEB1D2007CDC0B = {
 			isa = PBXGroup;
 			children = (
+				1B93972E24991AFA00838C29 /* MenuButton.podspec */,
 				AC06FCF520BEB1D2007CDC0B /* MenuButton */,
 				AC2F5D1A20C009A000AAF16F /* Example */,
 				AC73CC8120D7BD01002A4CBB /* Example-ActionSheet */,
@@ -473,13 +476,14 @@
 				TargetAttributes = {
 					AC06FCF220BEB1D2007CDC0B = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1150;
 					};
 					AC2F5D1820C009A000AAF16F = {
 						CreatedOnToolsVersion = 9.3.1;
 					};
 					AC73CC7F20D7BD01002A4CBB = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1150;
 					};
 					ACDF1C0A20BFDC1500F860D9 = {
 						CreatedOnToolsVersion = 9.3.1;
@@ -512,6 +516,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B93972F24991AFA00838C29 /* MenuButton.podspec in Resources */,
 				AC06FD2120BED675007CDC0B /* MenuOwnerViewCell.xib in Resources */,
 				AC06FD2620BEDB64007CDC0B /* MenuOwnerView.xib in Resources */,
 			);
@@ -792,7 +797,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -818,7 +823,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfort.MenuButton;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -838,7 +843,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfort.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -858,7 +863,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfort.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -878,7 +883,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfort.Example2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -898,7 +903,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zfort.Example2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
